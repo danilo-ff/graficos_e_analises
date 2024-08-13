@@ -1,0 +1,56 @@
+checkbox:
+operacional/cancelada
+condomínio aberto
+investidor qualificado
+exclusivo
+restrito
+tributação de longo prazo
+previdência
+
+primeiro conteiner:
+razão social
+cnpj
+benchmark
+data inicial
+tipo de fundo
+administrador
+classe
+subclasse
+gestor
+
+performance (conteineres individuais):
+rentabilidade 12m
+patrimônio líquido
+PL médio 12m
+volatilidade 12m
+índice de sharpe 12m
+cotistas
+
+outros conteineres:
+Nome do fundo:
+- diretor responsável
+- site
+- email
+- telefone
+
+MOVIMENTAÇÃO
+Aporte mínimo
+Valor mínimo para permanência
+
+TAXAS
+Taxa de Adm:
+Taxa de Adm máx:
+Taxa de Performance:
+
+RESGATE
+Prazo de cotização: DU + 30
+Liquidação financeira: DU + 32
+
+Descrição do fundo
+
+Composição da carteira
+
+gráfico cotistas
+gráfico drawdown
+gráfico patrimônio
+gráfico volatilidade

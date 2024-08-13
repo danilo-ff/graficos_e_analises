@@ -1,0 +1,24 @@
+{% extends 'shared/base_login.html' %}
+{% load static %}
+{% block content %}     
+        <form action="{% url 'usuarios:cadastro' %}" method="POST">
+            {% csrf_token %}
+            <div>
+                {% for field in form.visible_fields %}
+                <div>
+                    <label for="{{ field.id_for_label }}">{{field.label}}</label>
+                    {{ field }}
+                </div>
+                {% for error in field.errors %}
+                <div>
+                    {{error}}
+                </div>
+                {% endfor %}
+                {% endfor %}
+            </div>
+            <div>
+                <button class="btn btn-primary w-100 py-2 mt-3" type="submit">Cadastrar</button>
+            </div>
+        </form>
+    </section>
+{% endblock %}

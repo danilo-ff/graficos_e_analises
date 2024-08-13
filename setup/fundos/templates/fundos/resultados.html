@@ -1,0 +1,22 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>Resultados da busca</h1>
+    <ul>
+        {% if fundos %}
+        <p>Fundos</p>
+        {% endif %}
+        {% for fundo in fundos %}
+            <li><a href="{% url 'fundos:grafico_fundo' fundo.id %}">{{ fundo.TP_FUNDO}}-{{ fundo.DENOM_SOCIAL }}</a></li>
+        {% endfor %}
+    </ul>
+    <ul>
+        {% if acoes %}
+        <p>Ações/FII</p>
+        {% endif %}
+        {% for acao in acoes %}
+            <li><a href="{% url 'fundos:grafico_acao' acao.id %}">{{ acao.TICKER}}-{{ acao.DENOM_SOCIAL }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,271 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>{{fundo.dados_cadastrais.DENOM_SOCIAL}}</h1>
+<div class="card h-100">
+    <div class="row row-cols-1 row-cols-md-5 g-4">
+        <div class="col">
+            <div>
+                <div class="card-body">
+                    <h6 class="card-title">Razão Social</h6>
+                    <p class="card-text small">{{fundo.dados_cadastrais.DENOM_SOCIAL}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <div class="card-body">
+                    <h6 class="card-title">CNPJ</h6>
+                    <p class="card-text small">{{fundo.dados_cadastrais.CNPJ_FUNDO}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <div class="card-body">
+                    <h6 class="card-title">Benchmark</h6>
+                    <p class="card-text small">{{fundo.dados_cadastrais.RENTAB_FUNDO}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <div class="card-body">
+                    <h6 class="card-title">Data inicial</h6>
+                    <p class="card-text small">{{fundo.dados_cadastrais.DT_INI_ATIV}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <div class="card-body">
+                    <h6 class="card-title">Tipo de fundo</h6>
+                    <p class="card-text small">{{fundo.dados_cadastrais.TP_FUNDO}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <div class="card-body">
+                    <h6 class="card-title">Administrador</h6>
+                    <p class="card-text small">{{fundo.dados_cadastrais.ADMIN}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <div class="card-body">
+                    <h6 class="card-title">Classe</h6>
+                    <p class="card-text small">{{fundo.dados_cadastrais.CLASSE}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <div class="card-body">
+                    <h6 class="card-title">Subclasse</h6>
+                    <p class="card-text small">{{fundo.dados_cadastrais.CLASSE_ANBIMA}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <div class="card-body">
+                    <h6 class="card-title">Gestor</h6>
+                    <p class="card-text small">{{fundo.dados_cadastrais.GESTOR}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card w-100 p-3 mb-3 mt-3">
+    <h1>Evolução da cota</h1>
+
+    <!-- Div onde o gráfico será renderizado -->
+    <div id="grafico"></div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-6 g-4">
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-percent mt-3 mb-3" viewBox="0 0 16 16">
+                    <path d="M13.442 2.558a.625.625 0 0 1 0 .884l-10 10a.625.625 0 1 1-.884-.884l10-10a.625.625 0 0 1 .884 0M4.5 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5m7 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+                </svg>
+                <h6 class="card-title">Rentabilidade 12M</h6>
+                <p class="card-text small">{{fundo.last_12_months_return}}%</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar mt-3 mb-3" viewBox="0 0 16 16">
+                    <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
+                  </svg>
+                <h6 class="card-title">Patrimônio Líquido</h6>
+                <p class="card-text small">{{fundo.latest_VL_PATRIM_LIQ}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-graph-up-arrow mt-3 mb-3" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"/>
+                  </svg>
+                <h6 class="card-title">PL Médio 12M</h6>
+                <p class="card-text small">{{fundo.average_VL_PATRIM_LIQ}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-activity mt-3 mb-3" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2"/>
+                  </svg>
+                <h6 class="card-title">Volatilidade 12M</h6>
+                <p class="card-text small">{{fundo.volatility_12_months}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart mt-3 mb-3" viewBox="0 0 16 16">
+                    <path d="M4 11H2v3h2zm5-4H7v7h2zm5-5v12h-2V2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1z"/>
+                  </svg>
+                <h6 class="card-title">Índice de Sharpe 12M</h6>
+                <p class="card-text small">{{fundo.sharpe_ratio_12_months}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill mt-3 mb-3" viewBox="0 0 16 16">
+                    <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+                  </svg>
+                <h6 class="card-title">Cotistas</h6>
+                <p class="card-text small">{{fundo.latest_NR_COTST}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-percent mt-3 mb-3" viewBox="0 0 16 16">
+                    <path d="M13.442 2.558a.625.625 0 0 1 0 .884l-10 10a.625.625 0 1 1-.884-.884l10-10a.625.625 0 0 1 .884 0M4.5 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5m7 6a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"/>
+                </svg>
+                <h6 class="card-title">Cotistas</h6>
+                <div id="grafico_cotistas"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-dollar mt-3 mb-3" viewBox="0 0 16 16">
+                    <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/>
+                </svg>
+                <h6 class="card-title">Drawdown</h6>
+                <div id="grafico_drawdown"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-graph-up-arrow mt-3 mb-3" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5"/>
+                </svg>
+                <h6 class="card-title">Patrimônio</h6>
+                <div id="grafico_patrimonio"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-activity mt-3 mb-3" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2"/>
+                </svg>
+                <h6 class="card-title">Volatilidade</h6>
+                <div id="grafico_volatilidade"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card h-100 mt-3">
+    <div class="row row-cols-1 row-cols-md-5 g-4">
+        <div class="col">
+            <div>
+                <div class="card-body">
+                    <h6 class="card-title">Situação</h6>
+                    <p class="card-text small">{{fundo.dados_cadastrais.SIT}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <div class="card-body">
+                    <h6 class="card-title">Condomínio</h6>
+                    <p class="card-text small">{{ fundo.dados_cadastrais.CONDOM }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <div class="card-body">
+                    <h6 class="card-title">Tipo de Investidor</h6>
+                    <p class="card-text small">{{fundo.dados_cadastrais.PUBLICO_ALVO}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <div class="card-body">
+                    <h6 class="card-title">Exclusivo</h6>
+                    <p class="card-text small">{{fundo.dados_cadastrais.FUNDO_EXCLUSIVO}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <div class="card-body">
+                    <h6 class="card-title">Tributação de longo prazo</h6>
+                    <p class="card-text small">{{fundo.dados_cadastrais.TRIB_LPRAZO}}</p>
+                </div>
+            </div>
+    </div>
+</div>
+
+
+<!-- Script para renderizar o gráfico -->
+<script>
+    var graficoData = JSON.parse("{{ fundo.grafico_json|escapejs }}");
+    Plotly.newPlot('grafico', graficoData.data, graficoData.layout);
+
+    var cotistasData = JSON.parse("{{ fundo.grafico_cotistas|escapejs }}");
+    Plotly.newPlot('grafico_cotistas', cotistasData.data, cotistasData.layout);
+
+    var drawdownData = JSON.parse("{{ fundo.grafico_drawdown|escapejs }}");
+    Plotly.newPlot('grafico_drawdown', drawdownData.data, drawdownData.layout);
+
+    var patrimonioData = JSON.parse("{{ fundo.grafico_patrimonio|escapejs }}");
+    Plotly.newPlot('grafico_patrimonio', patrimonioData.data, patrimonioData.layout);
+
+    var volatilityData = JSON.parse("{{ fundo.grafico_volatilidade|escapejs }}");
+    Plotly.newPlot('grafico_volatilidade', volatilityData.data, volatilityData.layout);
+
+    console.log('Mensagem de teste');
+    console.log(variavel);
+</script>
+{% endblock %}

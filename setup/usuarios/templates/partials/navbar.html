@@ -1,0 +1,114 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/>
+            <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z"/>
+            <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z"/>
+            <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567"/>
+        </svg>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'fundos:index' %}">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Mais acessadas
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="{% url 'fundos:grafico_fundo' '46131' %}">BTG PACTUAL REFERENCE GLOBAL TECH FIA</a></li>
+              <li><a class="dropdown-item" href="{% url 'fundos:grafico_fundo' '51344' %}">ITAÚ INDEX BITCOIN USD FIC FIA</a></li>
+              <li><a class="dropdown-item" href="{% url 'fundos:grafico_fundo' '43105' %}">JANUS HENDERSON GLOBAL TECHNOLOGY DOLAR FIC FIA IE</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{% url 'fundos:grafico_acao' '2197' %}">PETR4</a></li>
+              <li><a class="dropdown-item" href="{% url 'fundos:grafico_acao' '3209' %}">VALE3</a></li>
+              <li><a class="dropdown-item" href="{% url 'fundos:grafico_acao' '523' %}">BOVA11</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'fundos:logout' %}">Logout</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+          </li>
+        </ul>
+        <form class="d-flex" role="search" action="{% url 'fundos:resultado' %}" method="GET">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="busca" name="busca" autocomplete="off"><br><br>
+          <button class="btn btn-outline-success" type="submit" value="Buscar">Search</button>
+          <ul id="suggestions"></ul>
+        </form>
+      </div>
+    </div>
+    <script>
+      function debounce(func, wait) {
+          let timeout;
+          return function() {
+              const context = this, args = arguments;
+              clearTimeout(timeout);
+              timeout = setTimeout(() => func.apply(context, args), wait);
+          };
+      }
+  
+      $(document).ready(function(){
+          const cache = {};
+          const suggestions = $('#suggestions');
+
+          suggestions.css({
+            'color': 'black',
+            'font-size': '10px',  // Tamanho da fonte
+            'font-family': 'Arial, sans-serif',  // Fonte da letra
+            'text-align': 'left'  // Alinhamento à esquerda
+        });
+  
+          $('#busca').on('keyup', debounce(function(){
+              var query = $(this).val();
+              if (query.length > 2) {
+                  if (cache[query]) {
+                      displaySuggestions(cache[query]);
+                  } else {
+                      $.ajax({
+                          url: '{% url "fundos:autocomplete" %}',
+                          data: { 'term': query },
+                          success: function(data) {
+                              cache[query] = data;
+                              displaySuggestions(data);
+                          }
+                      });
+                  }
+              } else {
+                  suggestions.empty().hide(); // Limpa e esconde as sugestões se a consulta for menor que 2 caracteres
+              }
+          }, 300)); // 300ms delay
+  
+          function displaySuggestions(data) {
+              suggestions.empty();
+              $.each(data, function(index, item) {
+                  let displayText = item.name;
+                  if (item.extra) {
+                      displayText += ' (' + item.extra + ')';
+                  }
+                  suggestions.append('<li>' + displayText + '</li>');
+              });
+              suggestions.show(); // Mostra as sugestões
+          }
+  
+          // Ouvinte de evento de clique em qualquer lugar do documento
+          $(document).on('click', function(e) {
+              // Verifica se o clique ocorreu fora da caixa de busca e das sugestões
+              if (!$(e.target).closest('#busca').length && !$(e.target).closest('#suggestions').length) {
+                  suggestions.empty().hide(); // Limpa e esconde as sugestões
+              }
+          });
+  
+          // Ouvinte de evento de clique nas sugestões
+          suggestions.on('click', 'li', function(){
+              var text = $(this).text();
+              $('#busca').val(text);
+              suggestions.empty().hide(); // Limpa e esconde as sugestões após selecionar uma sugestão
+          });
+      });
+  </script>
+  </nav>

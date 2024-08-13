@@ -1,0 +1,9 @@
+frontend
+botoes 1 mes, 6 meses, 1 ano, 5 anos
+dados completos
+melhorar o gráfico
+comparar fundos
+benchmark
+compor carteira
+rankings
+markovitz

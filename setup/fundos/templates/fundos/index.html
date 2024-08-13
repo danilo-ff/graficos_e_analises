@@ -1,0 +1,90 @@
+{% extends 'shared/base_login.html' %}
+{% load static %}
+
+{% block content %}
+
+<form action="{% url 'fundos:resultado' %}" method="GET" class="text-center">
+    <div class="d-inline-block">
+        <label for="campo" class="d-block mb-1">Digite o nome do fundo ou ativo:</label>
+        <div class="input-group mb-1">
+            <input type="text" id="busca" name="busca" autocomplete="off" class="form-control">
+            <div class="input-group-append">
+                <input class="btn btn-primary" type="submit" value="Buscar">
+            </div>
+        </div>
+        <ul id="suggestions"></ul>
+    </div>
+</form>
+
+<script>
+    function debounce(func, wait) {
+        let timeout;
+        return function() {
+            const context = this, args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), wait);
+        };
+    }
+
+    $(document).ready(function(){
+        const cache = {};
+        const suggestions = $('#suggestions');
+
+        suggestions.css({
+            'color': 'black',
+            'font-size': '10px',  // Tamanho da fonte
+            'font-family': 'Arial, sans-serif',  // Fonte da letra
+            'text-align': 'left'  // Alinhamento à esquerda
+        });
+
+        $('#busca').on('keyup', debounce(function(){
+            var query = $(this).val();
+            if (query.length > 2) {
+                if (cache[query]) {
+                    displaySuggestions(cache[query]);
+                } else {
+                    $.ajax({
+                        url: '{% url "fundos:autocomplete" %}',
+                        data: { 'term': query },
+                        success: function(data) {
+                            cache[query] = data;
+                            displaySuggestions(data);
+                        }
+                    });
+                }
+            } else {
+                suggestions.empty().hide(); // Limpa e esconde as sugestões se a consulta for menor que 2 caracteres
+            }
+        }, 300)); // 300ms delay
+
+        function displaySuggestions(data) {
+            suggestions.empty();
+            $.each(data, function(index, item) {
+                let displayText = item.name;
+                if (item.extra) {
+                    displayText += ' (' + item.extra + ')';
+                }
+                suggestions.append('<li>' + displayText + '</li>');
+            });
+            suggestions.show(); // Mostra as sugestões
+        }
+
+        // Ouvinte de evento de clique em qualquer lugar do documento
+        $(document).on('click', function(e) {
+            // Verifica se o clique ocorreu fora da caixa de busca e das sugestões
+            if (!$(e.target).closest('#busca').length && !$(e.target).closest('#suggestions').length) {
+                suggestions.empty().hide(); // Limpa e esconde as sugestões
+            }
+        });
+
+        // Ouvinte de evento de clique nas sugestões
+        suggestions.on('click', 'li', function(){
+            var text = $(this).text();
+            $('#busca').val(text);
+            suggestions.empty().hide(); // Limpa e esconde as sugestões após selecionar uma sugestão
+        });
+    });
+</script>
+
+{% endblock %}
+
